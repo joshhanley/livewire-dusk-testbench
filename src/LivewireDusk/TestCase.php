@@ -80,6 +80,12 @@ class TestCase extends DuskTestCase
         ]);
     }
 
+    public function tweakApplicationHook()
+    {
+        return function () {
+        };
+    }
+
     public function getPackagePath()
     {
         return $this->packagePath;
@@ -153,11 +159,15 @@ class TestCase extends DuskTestCase
 
         $testComponents = $this->getTestComponentsClassList();
 
-        $this->tweakApplication(function () use ($testComponents) {
+        $tweakApplicationHook = $this->tweakApplicationHook();
+
+        $this->tweakApplication(function () use ($testComponents, $tweakApplicationHook) {
             // Autoload all Livewire components in this test suite.
             $testComponents->each(function ($componentClass) {
                 app('livewire')->component($componentClass);
             });
+
+            $tweakApplicationHook();
         });
     }
 
