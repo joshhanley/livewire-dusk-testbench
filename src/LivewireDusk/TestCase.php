@@ -10,10 +10,7 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
-use Livewire\Component;
 use Livewire\LivewireServiceProvider;
 use Livewire\Macros\DuskBrowserMacros;
 use LivewireDusk\HttpKernel;
@@ -66,24 +63,6 @@ class TestCase extends DuskTestCase
         });
 
         parent::setUp();
-
-        $this->tweakApplication(function () {
-            // Autoload all Livewire components in this test suite.
-            collect(File::allFiles(__DIR__))
-                ->map(function ($file) {
-                    return 'LivewireComponents\\Tests\\Browser\\'.Str::of($file->getRelativePathname())->before('.php')->replace('/', '\\');
-                })
-                ->filter(function ($computedClassName) {
-                    return class_exists($computedClassName);
-                })
-                ->filter(function ($class) {
-                    return is_subclass_of($class, Component::class);
-                })->each(function ($componentClass) {
-                    app('livewire')->component($componentClass);
-                });
-
-            app('session')->put('_token', 'this-is-a-hack-because-something-about-validating-the-csrf-token-is-broken');
-        });
     }
 
     protected function tearDown(): void
