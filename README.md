@@ -54,4 +54,8 @@ public function configureFilesystemDisks($app)
 Setup app key in phpunit file as per testbench instructions
 
 ## Views
-Create your own app layout and set your base view folder by overridding `viewsDirectory` method
+
+To add other packages to your app layout such as AlpineJS, you will need to create a custom layout.
+
+Create your own app layout by creating a `views/layouts/app.blade.php` file somewhere in your package.
+Then set your base view folder by overridding `viewsDirectory` method to point to the `views` folder you created.
