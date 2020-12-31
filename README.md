@@ -23,3 +23,7 @@ public function viewsDirectory()
     return __DIR__.'/views';
 }
 ```
+
+## App Key
+
+Setup app key in phpunit file as per testbench instructions
