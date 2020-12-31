@@ -170,10 +170,36 @@ class TestCase extends DuskTestCase
 
     protected function checkTestsNamespace()
     {
-        if (empty($this->testsNamespace) || $this->testsNamespace == '') {
-            throw new \Exception('Tests namespace missing. Set tests namespace');
-            exit;
+        if ($this->isTestsNamespacePopulated()) {
+            return;
         }
+
+        if ($this->tryAndGuessTestsNamespace()) {
+            return;
+        }
+
+        throw new \Exception('Tests namespace missing. Set tests namespace');
+        exit;
+    }
+
+    protected function isTestsNamespacePopulated()
+    {
+        return isset($this->testsNamespace) && $this->testsNamespace !=  '';
+    }
+
+    protected function tryAndGuessTestsNamespace()
+    {
+        $className = Str::of(get_class($this));
+
+        if (! $className->contains('Tests')) {
+            return false;
+        }
+
+        $testsNamespace = $className->before($className->after('Tests'));
+
+        $this->testsNamespace = $testsNamespace;
+
+        return $this->isTestsNamespacePopulated();
     }
 
     protected function storeConsoleLogsFor($browsers)
