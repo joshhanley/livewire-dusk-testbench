@@ -6,7 +6,7 @@ The code was developed by [Caleb Porzio](https://github.com/calebporzio) for tes
 
 ## Getting Started
 
-It's recommended you read the documentation of the packages before going through this document
+It's recommended you read the documentation of these packages before going through this document:
 
 - [Livewire](https://laravel-livewire.com/docs)
 - [Orchestra Testbench Dusk](https://github.com/orchestral/testbench-dusk)
@@ -19,12 +19,12 @@ It's recommended you read the documentation of the packages before going through
 To install through composer, run the following command from terminal
 
 ```bash
-composer require --dev josh/livewire-dusk
+composer require --dev joshhanley/livewire-dusk
 ```
 
 ## Usage
 
-To use this package you need to
+To use this package you need to:
 
 - Setup your base browser testcase
 - Configure an app key
@@ -39,7 +39,7 @@ There are other configuration options you can override depending on your needs.
 
 To use Livewire Dusk, all you need to do is extend `LivewireDusk\TestCase` instead of `Orchestra\Testbench\Dusk\TestCase` in your dusk tests.
 
-Or configure this in your base browser testcase
+Or configure this in your base browser testcase:
 
 ```php
 <?php
@@ -52,7 +52,7 @@ class BrowserTestCase extends LivewireDusk\TestCase
 
 ### Configure App Key
 
-Setup app key in phpunit.xml file as per [testbench instructions](https://github.com/orchestral/testbench#no-supported-encrypter-found-the-cipher-and--or-key-length-are-invalid)
+Setup app key in phpunit.xml file as per [testbench instructions](https://github.com/orchestral/testbench#no-supported-encrypter-found-the-cipher-and--or-key-length-are-invalid):
 
 >To solve this you can add a dummy APP_KEY or use a specific key to your application/package phpunit.xml.
 
@@ -71,17 +71,45 @@ Setup app key in phpunit.xml file as per [testbench instructions](https://github
 
 ### Register Package Service Providers
 
-Register your package services providers in $packageProviders property to ensure they are loaded for testing.
+Register your package services providers in $packageProviders property to ensure they are loaded for testing:
+
+```php
+public $packageProviders = [
+    YourPackageServiceProvider::class,
+];
+```
 
 ### Setup Layout Views
 
-To add other packages to your app layout such as AlpineJS, you will need to create a custom layout.
+To add other packages to your app layout for testing with, such as AlpineJS, you will need to create a custom layout.
 
-Create your own app layout by creating a `views/layouts/app.blade.php` file somewhere in your package.
+Create your own app layout by creating a `views/layouts` folder somewhere in your package and add a `app.blade.php` file inside the layouts folder.
+
+Populate your app layout as required (making sure in you include Livewire Scripts and Styles).
 
 Then set your base view folder by overridding `viewsDirectory` method to point to the `views` folder you created.
 
+*For Example*
+
+A good location to store your views folder and app layout would be in your Dusk browser tests folder.
+
+In the root of your package, create the following directories and file
+`tests/Browser/views/layouts/app.blade.php`
+
+Then in your `tests/Browser/TestCase.php` file add:
+
+```php
+public function viewsDirectory()
+{
+    // Resolves to 'tests/Browser/views'
+    return __DIR__.'/views';
+}
+```
+
+
 ## Possible Overrides
+
+Below is a list of some of the settings you can override inside your browser TestCase file to suit your testing needs. Listed below are the defaults:
 
 ```php
 public $packageProviders = [];
