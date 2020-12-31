@@ -4,13 +4,29 @@
 
 ## App Key
 
-Setup app key in phpunit file as per testbench instructions
+Setup app key in phpunit.xml file as per testbench instructions
+
+>To solve this you can add a dummy APP_KEY or use a specific key to your application/package phpunit.xml.
+
+```xml
+<phpunit>
+
+    // ...
+
+    <php>
+        <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
+    </php>
+
+</phpunit>
+
+```
 
 ## Views
 
 To add other packages to your app layout such as AlpineJS, you will need to create a custom layout.
 
 Create your own app layout by creating a `views/layouts/app.blade.php` file somewhere in your package.
+
 Then set your base view folder by overridding `viewsDirectory` method to point to the `views` folder you created.
 
 ## Package Providers
