@@ -23,16 +23,17 @@ class TestCase extends DuskTestCase
 {
     use SupportsSafari;
 
-    protected $packageProviders = [];
+    public $packageProviders = [];
 
-    protected $appDebug = true;
-    protected $useDatabase = true;
-    protected $useFilesystemDisks = true;
+    public $appDebug = true;
+    public $useDatabase = true;
+    public $useFilesystemDisks = true;
 
-    protected $withoutUI = false;
+    public $withoutUI = false;
+    public $storeConsoleLogs = false;
+    public $captureFailures = false;
+
     public static $useSafari = false;
-    protected $storeConsoleLogs = false;
-    protected $captureFailures = false;
 
     public function viewsDirectory()
     {

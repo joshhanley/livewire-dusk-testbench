@@ -2,27 +2,35 @@
 
 ---
 
-## Overrides
+## App Key
+
+Setup app key in phpunit file as per testbench instructions
+
+## Views
+
+To add other packages to your app layout such as AlpineJS, you will need to create a custom layout.
+
+Create your own app layout by creating a `views/layouts/app.blade.php` file somewhere in your package.
+Then set your base view folder by overridding `viewsDirectory` method to point to the `views` folder you created.
+
+## Package Providers
+
+Register your package services providers in $packageProviders property to ensure they are loaded for testing.
+
+## Possible Overrides
 
 ```php
-protected $packageProviders = [];
+public $packageProviders = [];
 
-protected $appDebug = true;
-protected $useDatabase = true;
-protected $useFilesystemDisks = true;
+public $appDebug = true;
+public $useDatabase = true;
+public $useFilesystemDisks = true;
 
-protected $withoutUI = false;
+public $withoutUI = false;
+public $storeConsoleLogs = false;
+public $captureFailures = false;
+
 public static $useSafari = false;
-protected $storeConsoleLogs = false;
-protected $captureFailures = false;
-
-protected function getPackageProviders($app)
-{
-    return [
-        ...parent::getPackageProviders($app),
-        LivewireComponentsServiceProvider::class,
-    ];
-}
 
 public function viewsDirectory()
 {
@@ -48,14 +56,3 @@ public function configureFilesystemDisks($app)
 }
 
 ```
-
-## App Key
-
-Setup app key in phpunit file as per testbench instructions
-
-## Views
-
-To add other packages to your app layout such as AlpineJS, you will need to create a custom layout.
-
-Create your own app layout by creating a `views/layouts/app.blade.php` file somewhere in your package.
-Then set your base view folder by overridding `viewsDirectory` method to point to the `views` folder you created.
