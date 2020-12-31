@@ -6,14 +6,15 @@
 
 ```php
 protected $packageProviders = [];
-protected $withoutUI = false;
-protected $storeConsoleLogs = false;
-protected $captureFailures = false;
+
 protected $appDebug = true;
 protected $useDatabase = true;
 protected $useFilesystemDisks = true;
 
+protected $withoutUI = false;
 public static $useSafari = false;
+protected $storeConsoleLogs = false;
+protected $captureFailures = false;
 
 protected function getPackageProviders($app)
 {

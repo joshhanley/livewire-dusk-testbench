@@ -25,22 +25,14 @@ class TestCase extends DuskTestCase
 
     protected $packageProviders = [];
 
-    protected $withoutUI = false;
-    protected $storeConsoleLogs = false;
-    protected $captureFailures = false;
     protected $appDebug = true;
     protected $useDatabase = true;
     protected $useFilesystemDisks = true;
 
+    protected $withoutUI = false;
     public static $useSafari = false;
-
-    protected function getPackageProviders($app)
-    {
-        return [
-            LivewireServiceProvider::class,
-            ...$this->packageProviders
-        ];
-    }
+    protected $storeConsoleLogs = false;
+    protected $captureFailures = false;
 
     public function setUp(): void
     {
@@ -69,12 +61,6 @@ class TestCase extends DuskTestCase
         parent::tearDown();
     }
 
-    /**
-     * Store the console output for the given browsers.
-     *
-     * @param  \Illuminate\Support\Collection  $browsers
-     * @return void
-     */
     protected function storeConsoleLogsFor($browsers)
     {
         if ($this->storeConsoleLogs) {
@@ -82,12 +68,6 @@ class TestCase extends DuskTestCase
         }
     }
 
-    /**
-     * Capture failure screenshots for each browser.
-     *
-     * @param  \Illuminate\Support\Collection  $browsers
-     * @return void
-     */
     protected function captureFailuresFor($browsers)
     {
         if ($this->captureFailures) {
@@ -103,6 +83,14 @@ class TestCase extends DuskTestCase
         File::cleanDirectory(__DIR__.'/downloads');
         File::deleteDirectory($this->livewireClassesPath());
         File::delete(app()->bootstrapPath('cache/livewire-components.php'));
+    }
+
+    protected function getPackageProviders($app)
+    {
+        return [
+            LivewireServiceProvider::class,
+            ...$this->packageProviders
+        ];
     }
 
     protected function getEnvironmentSetUp($app)
