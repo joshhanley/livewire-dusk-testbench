@@ -102,7 +102,7 @@ class TestCase extends DuskTestCase
 
         $app['config']->set('app.debug', $this->appDebug);
 
-        $this->configureViews($app);
+        $this->setViewsDirectory($app);
 
         if ($this->useDatabase) {
             $this->configureDatabase($app);
@@ -113,7 +113,7 @@ class TestCase extends DuskTestCase
         }
     }
 
-    protected function configureViews($app)
+    protected function setViewsDirectory($app)
     {
         $app['config']->set('view.paths', [
             $this->viewsDirectory(),
