@@ -24,12 +24,15 @@ use Throwable;
 
 class TestCase extends DuskTestCase
 {
+    protected $packageProviders = [];
+
     public static $useSafari = false;
 
     protected function getPackageProviders($app)
     {
         return [
             LivewireServiceProvider::class,
+            ...$this->packageProviders
         ];
     }
 
