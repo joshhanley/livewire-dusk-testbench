@@ -52,3 +52,6 @@ public function configureFilesystemDisks($app)
 ## App Key
 
 Setup app key in phpunit file as per testbench instructions
+
+## Views
+Create your own app layout and set your base view folder by overridding `viewsDirectory` method
