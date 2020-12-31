@@ -64,9 +64,7 @@ class TestCase extends DuskTestCase
 
         parent::setUp();
 
-        $viewsDirectory = $this->viewsDirectory();
-
-        $this->tweakApplication(function () use ($viewsDirectory) {
+        $this->tweakApplication(function () {
             // Autoload all Livewire components in this test suite.
             collect(File::allFiles(__DIR__))
                 ->map(function ($file) {
@@ -82,12 +80,6 @@ class TestCase extends DuskTestCase
                 });
 
             app('session')->put('_token', 'this-is-a-hack-because-something-about-validating-the-csrf-token-is-broken');
-
-
-            app('config')->set('view.paths', [
-                $viewsDirectory,
-                resource_path('views'),
-            ]);
 
             config()->set('app.debug', true);
         });
@@ -138,6 +130,16 @@ class TestCase extends DuskTestCase
 
     protected function getEnvironmentSetUp($app)
     {
+        if (! $app['config']->get('app.key')) {
+            throw new \Exception('Please set an app key in you phpunit file');
+            exit;
+        }
+
+        $app['config']->set('view.paths', [
+            $this->viewsDirectory(),
+            resource_path('views'),
+        ]);
+
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
