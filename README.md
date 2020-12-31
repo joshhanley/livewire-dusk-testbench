@@ -116,6 +116,7 @@ public $packageProviders = [];
 public $packagePath = '';
 public $testsDirectory = '';
 public $testsNamespace = '';
+public $viewsDirectory = '';
 
 public $appDebug = true;
 public $useDatabase = true;
@@ -137,9 +138,9 @@ public function configureTestsDirectory()
     $this->testsDirectory = $this->getPackagePath()."/tests";
 }
 
-public function viewsDirectory()
+public function configureViewsDirectory()
 {
-    return __DIR__.'/../../resources/views';
+    $this->viewsDirectory = __DIR__.'/../../resources/views';
 }
 
 public function configureDatabase($app)
