@@ -167,6 +167,12 @@ public function configureFilesystemDisks($app)
     ]);
 }
 
+public function tweakApplicationHook()
+{
+    return function () {
+    };
+}
+
 ```
 
 ## Troubleshooting
