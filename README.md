@@ -11,6 +11,8 @@ protected $storeConsoleLogs = false;
 protected $captureFailures = false;
 protected $appDebug = true;
 
+public static $useSafari = false;
+
 protected function getPackageProviders($app)
 {
     return [

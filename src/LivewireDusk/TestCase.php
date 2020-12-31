@@ -24,6 +24,8 @@ use Throwable;
 
 class TestCase extends DuskTestCase
 {
+    use SupportsSafari;
+
     protected $packageProviders = [];
 
     protected $withoutUI = false;
