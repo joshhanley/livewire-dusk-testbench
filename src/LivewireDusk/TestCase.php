@@ -51,11 +51,6 @@ class TestCase extends DuskTestCase
         $this->testsDirectory = $this->getPackagePath()."/tests";
     }
 
-    public function viewsDirectory()
-    {
-        return __DIR__.'/../../resources/views';
-    }
-
     public function configureViewsDirectory()
     {
         $this->viewsDirectory = __DIR__.'/../../resources/views';
@@ -125,8 +120,6 @@ class TestCase extends DuskTestCase
         $this->configurePackagePath();
 
         $this->configureTestsDirectory();
-
-        $this->configureViewsDirectory();
 
         $this->checkTestsNamespace();
 
@@ -242,8 +235,10 @@ class TestCase extends DuskTestCase
 
     protected function setViewsDirectory($app)
     {
+        $this->configureViewsDirectory();
+
         $app['config']->set('view.paths', [
-            $this->viewsDirectory(),
+            $this->getViewsDirectory(),
             resource_path('views'),
         ]);
     }
