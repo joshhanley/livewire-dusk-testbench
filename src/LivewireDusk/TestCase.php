@@ -43,17 +43,23 @@ class TestCase extends DuskTestCase
 
     public function configurePackagePath()
     {
-        $this->packagePath = getcwd();
+        if ($this->packagePath == '') {
+            $this->packagePath = getcwd();
+        }
     }
 
     public function configureTestsDirectory()
     {
-        $this->testsDirectory = $this->getPackagePath()."/tests";
+        if ($this->testsDirectory == '') {
+            $this->testsDirectory = $this->getPackagePath()."/tests";
+        }
     }
 
     public function configureViewsDirectory()
     {
-        $this->viewsDirectory = __DIR__.'/../../resources/views';
+        if ($this->viewsDirectory == '') {
+            $this->viewsDirectory = __DIR__.'/../../resources/views';
+        }
     }
 
     public function configureDatabase($app)
