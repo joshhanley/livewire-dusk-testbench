@@ -24,6 +24,7 @@ class TestCase extends DuskTestCase
     use SupportsSafari;
 
     public $packageProviders = [];
+    public $testsNamespace = '';
 
     public $appDebug = true;
     public $useDatabase = true;
@@ -90,6 +91,8 @@ class TestCase extends DuskTestCase
     {
         $this->configurePackagePath();
 
+        $this->checkTestsNamespace();
+
         // Check if running in GitHub actions as CI will be set to true
         if (isset($_SERVER['CI']) || $this->withoutUI == true) {
             DuskOptions::withoutUI();
@@ -113,6 +116,14 @@ class TestCase extends DuskTestCase
         $this->removeApplicationTweaks();
 
         parent::tearDown();
+    }
+
+    protected function checkTestsNamespace()
+    {
+        if (empty($this->testsNamespace) || $this->testsNamespace == '') {
+            throw new \Exception('Tests namespace missing. Set tests namespace');
+            exit;
+        }
     }
 
     protected function storeConsoleLogsFor($browsers)
