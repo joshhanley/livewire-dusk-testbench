@@ -2,9 +2,47 @@
 
 ---
 
-## App Key
+## Getting Started
 
-Setup app key in phpunit.xml file as per testbench instructions
+## Installation
+
+To install through composer, run the following command from terminal
+
+```bash
+composer require --dev josh/livewire-dusk
+```
+
+## Usage
+
+To use this package you need to
+
+- Setup your base browser testcase
+- Configure an app key
+- Register your package service providers (if required)
+- Setup layout views (if required)
+
+Then you are ready to start testing.
+
+There are other configuration options you can override depending on your needs.
+
+### Setup Browser TestCase
+
+To use Livewire Dusk, all you need to do is extend `LivewireDusk\TestCase` instead of `Orchestra\Testbench\Dusk\TestCase` in your dusk tests.
+
+Or configure this in your base browser testcase
+
+```php
+<?php
+
+class BrowserTestCase extends LivewireDusk\TestCase
+{
+    //
+}
+```
+
+### Configure App Key
+
+Setup app key in phpunit.xml file as per [testbench instructions](https://github.com/orchestral/testbench#no-supported-encrypter-found-the-cipher-and--or-key-length-are-invalid)
 
 >To solve this you can add a dummy APP_KEY or use a specific key to your application/package phpunit.xml.
 
@@ -21,17 +59,17 @@ Setup app key in phpunit.xml file as per testbench instructions
 
 ```
 
-## Views
+### Register Package Service Providers
+
+Register your package services providers in $packageProviders property to ensure they are loaded for testing.
+
+### Setup Layout Views
 
 To add other packages to your app layout such as AlpineJS, you will need to create a custom layout.
 
 Create your own app layout by creating a `views/layouts/app.blade.php` file somewhere in your package.
 
 Then set your base view folder by overridding `viewsDirectory` method to point to the `views` folder you created.
-
-## Package Providers
-
-Register your package services providers in $packageProviders property to ensure they are loaded for testing.
 
 ## Possible Overrides
 
@@ -72,3 +110,14 @@ public function configureFilesystemDisks($app)
 }
 
 ```
+
+## Troubleshooting
+
+This is just a convenience wrapper around Orchestral Testbench Dusk to make testing Livewire Components in your package easier.
+
+Consult the documentation for the relevant packages for troubleshooting.
+
+- [Orchestra Testbench Dusk](https://github.com/orchestral/testbench-dusk)
+- [Laravel Dusk](https://laravel.com/docs/dusk)
+- [Orchestra Testbench](https://github.com/orchestral/testbench)
+- [Laravel Package Development](https://laravel.com/docs/packages)
