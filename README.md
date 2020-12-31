@@ -1,8 +1,18 @@
 # Livewire Dusk Testbench
 
----
+Livewire Dusk Testbench is a convenience wrapper around [Orchestral Testbench Dusk](https://github.com/orchestral/testbench-dusk) to make testing [Livewire](https://github.com/livewire/livewire) components in your package using [Laravel Dusk](https://laravel.com/docs/dusk) easier.
+
+The code was developed by [Caleb Porzio](https://github.com/calebporzio) for testing Livewire itself, and packaged up by [Josh Hanley](https://github.com/joshhanley) for use by others.
 
 ## Getting Started
+
+It's recommended you read the documentation of the packages before going through this document
+
+- [Livewire](https://laravel-livewire.com/docs)
+- [Orchestra Testbench Dusk](https://github.com/orchestral/testbench-dusk)
+- [Laravel Dusk](https://laravel.com/docs/dusk)
+- [Orchestra Testbench](https://github.com/orchestral/testbench)
+- [Laravel Package Development](https://laravel.com/docs/packages)
 
 ## Installation
 
@@ -117,6 +127,7 @@ This is just a convenience wrapper around Orchestral Testbench Dusk to make test
 
 Consult the documentation for the relevant packages for troubleshooting.
 
+- [Livewire](https://laravel-livewire.com/docs)
 - [Orchestra Testbench Dusk](https://github.com/orchestral/testbench-dusk)
 - [Laravel Dusk](https://laravel.com/docs/dusk)
 - [Orchestra Testbench](https://github.com/orchestral/testbench)
