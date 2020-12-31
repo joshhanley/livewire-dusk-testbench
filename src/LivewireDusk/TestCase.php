@@ -35,6 +35,13 @@ class TestCase extends DuskTestCase
 
     public static $useSafari = false;
 
+    protected $packagePath = '';
+
+    public function configurePackagePath()
+    {
+        $this->packagePath = getcwd();
+    }
+
     public function viewsDirectory()
     {
         return __DIR__.'/../../resources/views';
@@ -54,7 +61,7 @@ class TestCase extends DuskTestCase
     {
         $app['config']->set('filesystems.disks.dusk-downloads', [
             'driver' => 'local',
-            'root' => __DIR__.'/downloads',
+            'root' => $this->getPackagePath().'/tests/Browser/downloads',
         ]);
     }
 
@@ -81,6 +88,8 @@ class TestCase extends DuskTestCase
 
     protected function setUp(): void
     {
+        $this->configurePackagePath();
+
         // Check if running in GitHub actions as CI will be set to true
         if (isset($_SERVER['CI']) || $this->withoutUI == true) {
             DuskOptions::withoutUI();
@@ -125,9 +134,14 @@ class TestCase extends DuskTestCase
         Artisan::call('view:clear');
 
         File::deleteDirectory($this->livewireViewsPath());
-        File::cleanDirectory(__DIR__.'/downloads');
+        File::cleanDirectory($this->getPackagePath().'/tests/Browser/downloads');
         File::deleteDirectory($this->livewireClassesPath());
         File::delete(app()->bootstrapPath('cache/livewire-components.php'));
+    }
+
+    protected function getPackagePath()
+    {
+        return $this->packagePath;
     }
 
     protected function getPackageProviders($app)
@@ -191,7 +205,7 @@ class TestCase extends DuskTestCase
         $options = DuskOptions::getChromeOptions();
 
         $options->setExperimentalOption('prefs', [
-            'download.default_directory' => __DIR__.'/downloads',
+            'download.default_directory' => $this->getPackagePath().'/tests/Browser/downloads',
         ]);
 
         return static::$useSafari

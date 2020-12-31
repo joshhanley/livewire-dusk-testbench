@@ -124,9 +124,14 @@ public $captureFailures = false;
 
 public static $useSafari = false;
 
+public function configurePackagePath()
+{
+    $this->packagePath = getcwd();
+}
+
 public function viewsDirectory()
 {
-    return __DIR__.'/views';
+    return __DIR__.'/../../resources/views';
 }
 
 public function configureDatabase($app)
@@ -143,7 +148,7 @@ public function configureFilesystemDisks($app)
 {
     $app['config']->set('filesystems.disks.dusk-downloads', [
         'driver' => 'local',
-        'root' => __DIR__.'/downloads',
+        'root' => $this->packagePath.'/tests/Browser/downloads',
     ]);
 }
 
