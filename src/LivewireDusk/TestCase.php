@@ -26,6 +26,10 @@ class TestCase extends DuskTestCase
 {
     protected $packageProviders = [];
 
+    protected $withoutUI = false;
+    protected $storeConsoleLogs = false;
+    protected $captureFailures = false;
+
     public static $useSafari = false;
 
     protected function getPackageProviders($app)
@@ -43,8 +47,8 @@ class TestCase extends DuskTestCase
 
     public function setUp(): void
     {
-        // DuskOptions::withoutUI();
-        if (isset($_SERVER['CI'])) {
+        // Check if running in GitHub actions as CI will be set to true
+        if (isset($_SERVER['CI']) || $this->withoutUI == true) {
             DuskOptions::withoutUI();
         }
 
@@ -97,12 +101,30 @@ class TestCase extends DuskTestCase
         parent::tearDown();
     }
 
-    // We don't want to deal with screenshots or console logs.
+    /**
+     * Store the console output for the given browsers.
+     *
+     * @param  \Illuminate\Support\Collection  $browsers
+     * @return void
+     */
     protected function storeConsoleLogsFor($browsers)
     {
+        if ($this->storeConsoleLogs) {
+            parent::storeConsoleLogsFor($browsers);
+        }
     }
+
+    /**
+     * Capture failure screenshots for each browser.
+     *
+     * @param  \Illuminate\Support\Collection  $browsers
+     * @return void
+     */
     protected function captureFailuresFor($browsers)
     {
+        if ($this->captureFailures) {
+            parent::captureFailuresFor($browsers);
+        }
     }
 
     public function makeACleanSlate()
@@ -114,13 +136,6 @@ class TestCase extends DuskTestCase
         File::deleteDirectory($this->livewireClassesPath());
         File::delete(app()->bootstrapPath('cache/livewire-components.php'));
     }
-
-    // protected function getPackageProviders($app)
-    // {
-    //     return [
-    //         LivewireServiceProvider::class,
-    //     ];
-    // }
 
     protected function getEnvironmentSetUp($app)
     {
