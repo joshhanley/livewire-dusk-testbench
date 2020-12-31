@@ -16,7 +16,7 @@ It's recommended you read the documentation of these packages before going throu
 
 ## Installation
 
-To install through composer, run the following command from terminal
+To install through composer, run the following command from terminal:
 
 ```bash
 composer require --dev joshhanley/livewire-dusk
@@ -30,6 +30,7 @@ To use this package you need to:
 - Configure an app key
 - Register your package service providers (if required)
 - Setup layout views (if required)
+- Configure test directory and namespace (if required)
 
 Then you are ready to start testing.
 
@@ -106,6 +107,25 @@ public function viewsDirectory()
 }
 ```
 
+### Configure Tests Directory and Namespace
+
+This package assumes you have a `tests` directory at the root of your project and that it's namespace contains the word `Tests`. It tries to automatically guess the namespace for your tests based on this.
+
+If you have a different configuration, you can manually specify your namespace in your Browser Testcase file:
+
+```php
+public $testsNamespace = 'Company\\Package\\Tests';
+```
+
+You can also override the `configureTestsDirectory` method to calculate the absolute path of your tests directory:
+
+```php
+
+public function configureTestsDirectory()
+{
+    $this->testsDirectory = "/absolute/path/to/tests";
+}
+```
 
 ## Possible Overrides
 
@@ -163,7 +183,7 @@ public function configureFilesystemDisks($app)
 {
     $app['config']->set('filesystems.disks.dusk-downloads', [
         'driver' => 'local',
-        'root' => $this->getPackagePath().'/tests/Browser/downloads',
+        'root' => $this->getTestsDirectory().'/Browser/downloads',
     ]);
 }
 
