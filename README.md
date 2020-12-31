@@ -9,6 +9,7 @@ protected $packageProviders = [];
 protected $withoutUI = false;
 protected $storeConsoleLogs = false;
 protected $captureFailures = false;
+protected $appDebug = true;
 
 protected function getPackageProviders($app)
 {

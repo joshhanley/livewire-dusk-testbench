@@ -29,6 +29,7 @@ class TestCase extends DuskTestCase
     protected $withoutUI = false;
     protected $storeConsoleLogs = false;
     protected $captureFailures = false;
+    protected $appDebug = true;
 
     public static $useSafari = false;
 
@@ -80,8 +81,6 @@ class TestCase extends DuskTestCase
                 });
 
             app('session')->put('_token', 'this-is-a-hack-because-something-about-validating-the-csrf-token-is-broken');
-
-            config()->set('app.debug', true);
         });
     }
 
@@ -134,6 +133,8 @@ class TestCase extends DuskTestCase
             throw new \Exception('Please set an app key in you phpunit file');
             exit;
         }
+
+        $app['config']->set('app.debug', $this->appDebug);
 
         $app['config']->set('view.paths', [
             $this->viewsDirectory(),
