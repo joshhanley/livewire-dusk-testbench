@@ -29,6 +29,7 @@ class TestCase extends DuskTestCase
     protected $storeConsoleLogs = false;
     protected $captureFailures = false;
     protected $appDebug = true;
+    protected $useDatabase = true;
 
     public static $useSafari = false;
 
@@ -108,6 +109,16 @@ class TestCase extends DuskTestCase
         File::delete(app()->bootstrapPath('cache/livewire-components.php'));
     }
 
+    protected function configureDatabase($app)
+    {
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+    }
+
     protected function getEnvironmentSetUp($app)
     {
         if (! $app['config']->get('app.key')) {
@@ -122,12 +133,9 @@ class TestCase extends DuskTestCase
             resource_path('views'),
         ]);
 
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
+        if ($this->useDatabase) {
+            $this->configureDatabase($app);
+        }
 
         $app['config']->set('filesystems.disks.dusk-downloads', [
             'driver' => 'local',
