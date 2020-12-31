@@ -113,6 +113,9 @@ Below is a list of some of the settings you can override inside your browser Tes
 
 ```php
 public $packageProviders = [];
+public $packagePath = '';
+public $testsDirectory = '';
+public $testsNamespace = '';
 
 public $appDebug = true;
 public $useDatabase = true;
@@ -127,6 +130,11 @@ public static $useSafari = false;
 public function configurePackagePath()
 {
     $this->packagePath = getcwd();
+}
+
+public function configureTestsDirectory()
+{
+    $this->testsDirectory = $this->getPackagePath()."/tests";
 }
 
 public function viewsDirectory()

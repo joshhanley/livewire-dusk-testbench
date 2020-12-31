@@ -10,7 +10,9 @@ use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Laravel\Dusk\Browser;
+use Livewire\Component;
 use Livewire\LivewireServiceProvider;
 use Livewire\Macros\DuskBrowserMacros;
 use LivewireDusk\HttpKernel;
@@ -24,7 +26,10 @@ class TestCase extends DuskTestCase
     use SupportsSafari;
 
     public $packageProviders = [];
+    public $packagePath = '';
+    public $testsDirectory = '';
     public $testsNamespace = '';
+    public $viewsDirectory = '';
 
     public $appDebug = true;
     public $useDatabase = true;
@@ -36,16 +41,24 @@ class TestCase extends DuskTestCase
 
     public static $useSafari = false;
 
-    protected $packagePath = '';
-
     public function configurePackagePath()
     {
         $this->packagePath = getcwd();
     }
 
+    public function configureTestsDirectory()
+    {
+        $this->testsDirectory = $this->getPackagePath()."/tests";
+    }
+
     public function viewsDirectory()
     {
         return __DIR__.'/../../resources/views';
+    }
+
+    public function configureViewsDirectory()
+    {
+        $this->viewsDirectory = __DIR__.'/../../resources/views';
     }
 
     public function configureDatabase($app)
@@ -64,6 +77,26 @@ class TestCase extends DuskTestCase
             'driver' => 'local',
             'root' => $this->getPackagePath().'/tests/Browser/downloads',
         ]);
+    }
+
+    public function getPackagePath()
+    {
+        return $this->packagePath;
+    }
+
+    public function getTestsDirectory()
+    {
+        return $this->testsDirectory;
+    }
+
+    public function getTestsNamespace()
+    {
+        return $this->testsNamespace;
+    }
+
+    public function getViewsDirectory()
+    {
+        return $this->viewsDirectory;
     }
 
     public function browse(Closure $callback)
@@ -91,6 +124,10 @@ class TestCase extends DuskTestCase
     {
         $this->configurePackagePath();
 
+        $this->configureTestsDirectory();
+
+        $this->configureViewsDirectory();
+
         $this->checkTestsNamespace();
 
         // Check if running in GitHub actions as CI will be set to true
@@ -109,6 +146,26 @@ class TestCase extends DuskTestCase
         });
 
         parent::setUp();
+
+        $testsNamespace = $this->getTestsNamespace();
+
+        $testsDirectory = $this->getTestsDirectory();
+
+        $this->tweakApplication(function () use ($testsDirectory, $testsNamespace) {
+            // Autoload all Livewire components in this test suite.
+            collect(File::allFiles($testsDirectory))
+                ->map(function ($file) use ($testsNamespace) {
+                    return $testsNamespace.'\\'. Str::of($file->getRelativePathname())->before('.php')->replace('/', '\\');
+                })
+                ->filter(function ($computedClassName) {
+                    return class_exists($computedClassName);
+                })
+                ->filter(function ($class) {
+                    return is_subclass_of($class, Component::class);
+                })->each(function ($componentClass) {
+                    app('livewire')->component($componentClass);
+                });
+        });
     }
 
     protected function tearDown(): void
@@ -148,11 +205,6 @@ class TestCase extends DuskTestCase
         File::cleanDirectory($this->getPackagePath().'/tests/Browser/downloads');
         File::deleteDirectory($this->livewireClassesPath());
         File::delete(app()->bootstrapPath('cache/livewire-components.php'));
-    }
-
-    protected function getPackagePath()
-    {
-        return $this->packagePath;
     }
 
     protected function getPackageProviders($app)
