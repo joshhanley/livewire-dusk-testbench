@@ -42,11 +42,6 @@ class TestCase extends DuskTestCase
         ];
     }
 
-    public function viewsDirectory()
-    {
-        return __DIR__.'/../../resources/views';
-    }
-
     public function setUp(): void
     {
         // Check if running in GitHub actions as CI will be set to true
@@ -110,6 +105,19 @@ class TestCase extends DuskTestCase
         File::delete(app()->bootstrapPath('cache/livewire-components.php'));
     }
 
+    public function configureViews($app)
+    {
+        $app['config']->set('view.paths', [
+            $this->viewsDirectory(),
+            resource_path('views'),
+        ]);
+    }
+
+    public function viewsDirectory()
+    {
+        return __DIR__.'/../../resources/views';
+    }
+
     protected function configureDatabase($app)
     {
         $app['config']->set('database.default', 'testbench');
@@ -137,10 +145,7 @@ class TestCase extends DuskTestCase
 
         $app['config']->set('app.debug', $this->appDebug);
 
-        $app['config']->set('view.paths', [
-            $this->viewsDirectory(),
-            resource_path('views'),
-        ]);
+        $this->configureViews($app);
 
         if ($this->useDatabase) {
             $this->configureDatabase($app);
