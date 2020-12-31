@@ -76,7 +76,7 @@ class TestCase extends DuskTestCase
     {
         $app['config']->set('filesystems.disks.dusk-downloads', [
             'driver' => 'local',
-            'root' => $this->getPackagePath().'/tests/Browser/downloads',
+            'root' => $this->getTestsDirectory().'/Browser/downloads',
         ]);
     }
 
@@ -250,7 +250,7 @@ class TestCase extends DuskTestCase
         Artisan::call('view:clear');
 
         File::deleteDirectory($this->livewireViewsPath());
-        File::cleanDirectory($this->getPackagePath().'/tests/Browser/downloads');
+        File::cleanDirectory($this->getTestsDirectory().'/Browser/downloads');
         File::deleteDirectory($this->livewireClassesPath());
         File::delete(app()->bootstrapPath('cache/livewire-components.php'));
     }
@@ -318,7 +318,7 @@ class TestCase extends DuskTestCase
         $options = DuskOptions::getChromeOptions();
 
         $options->setExperimentalOption('prefs', [
-            'download.default_directory' => $this->getPackagePath().'/tests/Browser/downloads',
+            'download.default_directory' => $this->getTestsDirectory().'/Browser/downloads',
         ]);
 
         return static::$useSafari
