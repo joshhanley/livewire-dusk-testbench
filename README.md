@@ -11,6 +11,7 @@ protected $storeConsoleLogs = false;
 protected $captureFailures = false;
 protected $appDebug = true;
 protected $useDatabase = true;
+protected $useFilesystemDisks = true;
 
 public static $useSafari = false;
 
@@ -34,6 +35,14 @@ protected function configureDatabase($app)
         'driver'   => 'sqlite',
         'database' => ':memory:',
         'prefix'   => '',
+    ]);
+}
+
+protected function configureFilesystemDisks($app)
+{
+    $app['config']->set('filesystems.disks.dusk-downloads', [
+        'driver' => 'local',
+        'root' => __DIR__.'/downloads',
     ]);
 }
 

@@ -30,6 +30,7 @@ class TestCase extends DuskTestCase
     protected $captureFailures = false;
     protected $appDebug = true;
     protected $useDatabase = true;
+    protected $useFilesystemDisks = true;
 
     public static $useSafari = false;
 
@@ -119,6 +120,14 @@ class TestCase extends DuskTestCase
         ]);
     }
 
+    protected function configureFilesystemDisks($app)
+    {
+        $app['config']->set('filesystems.disks.dusk-downloads', [
+            'driver' => 'local',
+            'root' => __DIR__.'/downloads',
+        ]);
+    }
+
     protected function getEnvironmentSetUp($app)
     {
         if (! $app['config']->get('app.key')) {
@@ -137,10 +146,9 @@ class TestCase extends DuskTestCase
             $this->configureDatabase($app);
         }
 
-        $app['config']->set('filesystems.disks.dusk-downloads', [
-            'driver' => 'local',
-            'root' => __DIR__.'/downloads',
-        ]);
+        if ($this->useFilesystemDisks) {
+            $this->configureFilesystemDisks($app);
+        }
     }
 
     protected function resolveApplicationHttpKernel($app)
