@@ -94,6 +94,11 @@ class TestCase extends DuskTestCase
         return $this->viewsDirectory;
     }
 
+    public function getTestComponentsClassList()
+    {
+        return $this->generateTestComponentsClassList();
+    }
+
     public function browse(Closure $callback)
     {
         parent::browse(function (...$browsers) use ($callback) {
@@ -140,24 +145,13 @@ class TestCase extends DuskTestCase
 
         parent::setUp();
 
-        $testsNamespace = $this->getTestsNamespace();
+        $testComponents = $this->getTestComponentsClassList();
 
-        $testsDirectory = $this->getTestsDirectory();
-
-        $this->tweakApplication(function () use ($testsDirectory, $testsNamespace) {
+        $this->tweakApplication(function () use ($testComponents) {
             // Autoload all Livewire components in this test suite.
-            collect(File::allFiles($testsDirectory))
-                ->map(function ($file) use ($testsNamespace) {
-                    return $testsNamespace.'\\'. Str::of($file->getRelativePathname())->before('.php')->replace('/', '\\');
-                })
-                ->filter(function ($computedClassName) {
-                    return class_exists($computedClassName);
-                })
-                ->filter(function ($class) {
-                    return is_subclass_of($class, Component::class);
-                })->each(function ($componentClass) {
-                    app('livewire')->component($componentClass);
-                });
+            $testComponents->each(function ($componentClass) {
+                app('livewire')->component($componentClass);
+            });
         });
     }
 
@@ -200,6 +194,25 @@ class TestCase extends DuskTestCase
         $this->testsNamespace = $testsNamespace;
 
         return $this->isTestsNamespacePopulated();
+    }
+
+    protected function generateTestComponentsClassList()
+    {
+        return collect(File::allFiles($this->getTestsDirectory()))
+            ->map(function ($file) {
+                return $this->generateClassNameFromFile($file);
+            })
+            ->filter(function ($computedClassName) {
+                return class_exists($computedClassName);
+            })
+            ->filter(function ($class) {
+                return is_subclass_of($class, Component::class);
+            });
+    }
+
+    protected function generateClassNameFromFile($file)
+    {
+        return $this->getTestsNamespace().'\\'. Str::of($file->getRelativePathname())->before('.php')->replace('/', '\\');
     }
 
     protected function storeConsoleLogsFor($browsers)
