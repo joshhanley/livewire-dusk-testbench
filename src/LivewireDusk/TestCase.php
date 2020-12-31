@@ -64,7 +64,6 @@ class TestCase extends DuskTestCase
 
         parent::setUp();
 
-
         $viewsDirectory = $this->viewsDirectory();
 
         $this->tweakApplication(function () use ($viewsDirectory) {
@@ -139,13 +138,6 @@ class TestCase extends DuskTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('view.paths', [
-            __DIR__.'/views',
-            resource_path('views'),
-        ]);
-
-        $app['config']->set('app.key', 'base64:Hupx3yAySikrM2/edkZQNQHslgDWYfiBfCuSThJ5SK8=');
-
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
