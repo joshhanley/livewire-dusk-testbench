@@ -34,7 +34,51 @@ class TestCase extends DuskTestCase
     protected $storeConsoleLogs = false;
     protected $captureFailures = false;
 
-    public function setUp(): void
+    public function viewsDirectory()
+    {
+        return __DIR__.'/../../resources/views';
+    }
+
+    public function configureDatabase($app)
+    {
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+    }
+
+    public function configureFilesystemDisks($app)
+    {
+        $app['config']->set('filesystems.disks.dusk-downloads', [
+            'driver' => 'local',
+            'root' => __DIR__.'/downloads',
+        ]);
+    }
+
+    public function browse(Closure $callback)
+    {
+        parent::browse(function (...$browsers) use ($callback) {
+            try {
+                $callback(...$browsers);
+            } catch (Exception $e) {
+                if (DuskOptions::hasUI()) {
+                    $this->breakIntoATinkerShell($browsers, $e);
+                }
+
+                throw $e;
+            } catch (Throwable $e) {
+                if (DuskOptions::hasUI()) {
+                    $this->breakIntoATinkerShell($browsers, $e);
+                }
+
+                throw $e;
+            }
+        });
+    }
+
+    protected function setUp(): void
     {
         // Check if running in GitHub actions as CI will be set to true
         if (isset($_SERVER['CI']) || $this->withoutUI == true) {
@@ -75,7 +119,7 @@ class TestCase extends DuskTestCase
         }
     }
 
-    public function makeACleanSlate()
+    protected function makeACleanSlate()
     {
         Artisan::call('view:clear');
 
@@ -126,29 +170,6 @@ class TestCase extends DuskTestCase
         ]);
     }
 
-    public function viewsDirectory()
-    {
-        return __DIR__.'/../../resources/views';
-    }
-
-    public function configureDatabase($app)
-    {
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
-    }
-
-    public function configureFilesystemDisks($app)
-    {
-        $app['config']->set('filesystems.disks.dusk-downloads', [
-            'driver' => 'local',
-            'root' => __DIR__.'/downloads',
-        ]);
-    }
-
     protected function resolveApplicationHttpKernel($app)
     {
         $app->singleton('Illuminate\Contracts\Http\Kernel', HttpKernel::class);
@@ -186,28 +207,7 @@ class TestCase extends DuskTestCase
             );
     }
 
-    public function browse(Closure $callback)
-    {
-        parent::browse(function (...$browsers) use ($callback) {
-            try {
-                $callback(...$browsers);
-            } catch (Exception $e) {
-                if (DuskOptions::hasUI()) {
-                    $this->breakIntoATinkerShell($browsers, $e);
-                }
-
-                throw $e;
-            } catch (Throwable $e) {
-                if (DuskOptions::hasUI()) {
-                    $this->breakIntoATinkerShell($browsers, $e);
-                }
-
-                throw $e;
-            }
-        });
-    }
-
-    public function breakIntoATinkerShell($browsers, $e)
+    protected function breakIntoATinkerShell($browsers, $e)
     {
         $sh = new Shell();
 
