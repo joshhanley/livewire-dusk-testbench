@@ -100,7 +100,7 @@ class TestCase extends DuskTestCase
             exit;
         }
 
-        $app['config']->set('app.debug', $this->appDebug);
+        $this->setAppDebug($app);
 
         $this->setViewsDirectory($app);
 
@@ -111,6 +111,11 @@ class TestCase extends DuskTestCase
         if ($this->useFilesystemDisks) {
             $this->configureFilesystemDisks($app);
         }
+    }
+
+    protected function setAppDebug($app)
+    {
+        $app['config']->set('app.debug', $this->appDebug);
     }
 
     protected function setViewsDirectory($app)
