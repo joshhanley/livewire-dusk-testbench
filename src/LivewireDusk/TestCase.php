@@ -105,37 +105,6 @@ class TestCase extends DuskTestCase
         File::delete(app()->bootstrapPath('cache/livewire-components.php'));
     }
 
-    public function configureViews($app)
-    {
-        $app['config']->set('view.paths', [
-            $this->viewsDirectory(),
-            resource_path('views'),
-        ]);
-    }
-
-    public function viewsDirectory()
-    {
-        return __DIR__.'/../../resources/views';
-    }
-
-    protected function configureDatabase($app)
-    {
-        $app['config']->set('database.default', 'testbench');
-        $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
-        ]);
-    }
-
-    protected function configureFilesystemDisks($app)
-    {
-        $app['config']->set('filesystems.disks.dusk-downloads', [
-            'driver' => 'local',
-            'root' => __DIR__.'/downloads',
-        ]);
-    }
-
     protected function getEnvironmentSetUp($app)
     {
         if (! $app['config']->get('app.key')) {
@@ -154,6 +123,37 @@ class TestCase extends DuskTestCase
         if ($this->useFilesystemDisks) {
             $this->configureFilesystemDisks($app);
         }
+    }
+
+    protected function configureViews($app)
+    {
+        $app['config']->set('view.paths', [
+            $this->viewsDirectory(),
+            resource_path('views'),
+        ]);
+    }
+
+    public function viewsDirectory()
+    {
+        return __DIR__.'/../../resources/views';
+    }
+
+    public function configureDatabase($app)
+    {
+        $app['config']->set('database.default', 'testbench');
+        $app['config']->set('database.connections.testbench', [
+            'driver'   => 'sqlite',
+            'database' => ':memory:',
+            'prefix'   => '',
+        ]);
+    }
+
+    public function configureFilesystemDisks($app)
+    {
+        $app['config']->set('filesystems.disks.dusk-downloads', [
+            'driver' => 'local',
+            'root' => __DIR__.'/downloads',
+        ]);
     }
 
     protected function resolveApplicationHttpKernel($app)

@@ -28,7 +28,7 @@ public function viewsDirectory()
     return __DIR__.'/views';
 }
 
-protected function configureDatabase($app)
+public function configureDatabase($app)
 {
     $app['config']->set('database.default', 'testbench');
     $app['config']->set('database.connections.testbench', [
@@ -38,7 +38,7 @@ protected function configureDatabase($app)
     ]);
 }
 
-protected function configureFilesystemDisks($app)
+public function configureFilesystemDisks($app)
 {
     $app['config']->set('filesystems.disks.dusk-downloads', [
         'driver' => 'local',
