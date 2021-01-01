@@ -103,7 +103,7 @@ Then in your `tests/Browser/TestCase.php` file add:
 public function configureViewsDirectory()
 {
     // Resolves to 'tests/Browser/views'
-    return __DIR__.'/views';
+    $this->viewsDirectory = __DIR__.'/views';
 }
 ```
 
