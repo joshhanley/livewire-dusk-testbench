@@ -18,6 +18,11 @@
             "LivewireDusk\\": "src/LivewireDusk/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "LivewireDusk\\Tests\\": "tests/"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
