@@ -100,7 +100,7 @@ In the root of your package, create the following directories and file
 Then in your `tests/Browser/TestCase.php` file add:
 
 ```php
-public function viewsDirectory()
+public function configureViewsDirectory()
 {
     // Resolves to 'tests/Browser/views'
     return __DIR__.'/views';
