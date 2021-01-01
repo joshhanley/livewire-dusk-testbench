@@ -11,7 +11,7 @@ class LivewireDuskServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Browser::macro('seeInOrder', function ($selector, $contents) {
+        Browser::macro('assertSeeInOrder', function ($selector, $contents) {
             $fullSelector = $this->resolver->format($selector);
 
             $element = $this->resolver->findOrFail($selector);
