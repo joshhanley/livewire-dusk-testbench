@@ -27,60 +27,60 @@ class LivewireDuskServiceProvider extends ServiceProvider
             return $this;
         });
 
-        Browser::macro('assertHasClass', function ($selector, $class) {
-            $fullSelector = $this->resolver->format($selector);
+        // Browser::macro('assertHasClass', function ($selector, $class) {
+        //     $fullSelector = $this->resolver->format($selector);
 
-            $actual = $this->resolver->findOrFail($selector)->getAttribute('class');
+        //     $actual = $this->resolver->findOrFail($selector)->getAttribute('class');
 
-            $actualClasses = explode(' ', $actual);
+        //     $actualClasses = explode(' ', $actual);
 
-            $isFound = false;
+        //     $isFound = false;
 
-            foreach ($actualClasses as $actualClass) {
-                if ($actualClass == $class) {
-                    $isFound = true;
-                }
-            }
+        //     foreach ($actualClasses as $actualClass) {
+        //         if ($actualClass == $class) {
+        //             $isFound = true;
+        //         }
+        //     }
 
-            PHPUnit::assertNotNull(
-                $actual,
-                "Did not see expected attribute [class] within element [{$fullSelector}]."
-            );
+        //     PHPUnit::assertNotNull(
+        //         $actual,
+        //         "Did not see expected attribute [class] within element [{$fullSelector}]."
+        //     );
 
-            PHPUnit::assertTrue(
-                $isFound,
-                "Expected class [{$class}] is not found in class list [$actual]."
-            );
+        //     PHPUnit::assertTrue(
+        //         $isFound,
+        //         "Expected class [{$class}] is not found in class list [$actual]."
+        //     );
 
-            return $this;
-        });
+        //     return $this;
+        // });
 
-        Browser::macro('assertMissingClass', function ($selector, $class) {
-            $fullSelector = $this->resolver->format($selector);
+        // Browser::macro('assertMissingClass', function ($selector, $class) {
+        //     $fullSelector = $this->resolver->format($selector);
 
-            $actual = $this->resolver->findOrFail($selector)->getAttribute('class');
+        //     $actual = $this->resolver->findOrFail($selector)->getAttribute('class');
 
-            $actualClasses = explode(' ', $actual);
+        //     $actualClasses = explode(' ', $actual);
 
-            $isFound = false;
+        //     $isFound = false;
 
-            foreach ($actualClasses as $actualClass) {
-                if ($actualClass == $class) {
-                    $isFound = true;
-                }
-            }
+        //     foreach ($actualClasses as $actualClass) {
+        //         if ($actualClass == $class) {
+        //             $isFound = true;
+        //         }
+        //     }
 
-            PHPUnit::assertNotNull(
-                $actual,
-                "Did not see expected attribute [class] within element [{$fullSelector}]."
-            );
+        //     PHPUnit::assertNotNull(
+        //         $actual,
+        //         "Did not see expected attribute [class] within element [{$fullSelector}]."
+        //     );
 
-            PHPUnit::assertFalse(
-                $isFound,
-                "Found unexpected class [{$class}] in class list [$actual]."
-            );
+        //     PHPUnit::assertFalse(
+        //         $isFound,
+        //         "Found unexpected class [{$class}] in class list [$actual]."
+        //     );
 
-            return $this;
-        });
+        //     return $this;
+        // });
     }
 }
