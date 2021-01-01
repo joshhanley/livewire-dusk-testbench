@@ -259,6 +259,7 @@ class TestCase extends DuskTestCase
     {
         return [
             LivewireServiceProvider::class,
+            LivewireDuskServiceProvider::class,
             ...$this->packageProviders
         ];
     }
