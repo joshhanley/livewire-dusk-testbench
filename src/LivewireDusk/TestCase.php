@@ -70,6 +70,9 @@ class TestCase extends DuskTestCase
 
     public function configureDatabase($app)
     {
+        /**
+         * Dusk Testbench doesn't support in memory sqlite database so we need to specifiy one.
+         */
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
