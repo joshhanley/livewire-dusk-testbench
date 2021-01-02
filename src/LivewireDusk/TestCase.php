@@ -30,6 +30,7 @@ class TestCase extends DuskTestCase
     public $testsDirectory = '';
     public $testsNamespace = '';
     public $viewsDirectory = '';
+    public $databaseName = '';
 
     public $appDebug = true;
     public $useDatabase = true;
@@ -62,12 +63,17 @@ class TestCase extends DuskTestCase
         }
     }
 
+    public function configureDatabaseName()
+    {
+        $this->databaseName = $this->getPackagePath() . '/database/database.sqlite';
+    }
+
     public function configureDatabase($app)
     {
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
             'driver'   => 'sqlite',
-            'database' => ':memory:',
+            'database' => $this->getDatabaseName(),
             'prefix'   => '',
         ]);
     }
@@ -82,7 +88,17 @@ class TestCase extends DuskTestCase
 
     public function tweakApplicationHook()
     {
-        return function () {
+        /**
+         * As the database name is calculated, we need to pass it to the app
+         * through this serialised closure to ensure it resolves correctly.
+         */
+
+        $databaseName = $this->getDatabaseName();
+
+        return function () use ($databaseName) {
+            $default = app('config')->get('database.default');
+
+            app('config')->set("database.connections.{$default}.database", $databaseName);
         };
     }
 
@@ -104,6 +120,11 @@ class TestCase extends DuskTestCase
     public function getViewsDirectory()
     {
         return $this->viewsDirectory;
+    }
+
+    public function getDatabaseName()
+    {
+        return $this->databaseName;
     }
 
     public function getTestComponentsClassList()
@@ -139,6 +160,8 @@ class TestCase extends DuskTestCase
         $this->configureTestsDirectory();
 
         $this->checkTestsNamespace();
+
+        $this->configureDatabaseName();
 
         // Check if running in GitHub actions as CI will be set to true
         if (isset($_SERVER['CI']) || $this->withoutUI == true) {

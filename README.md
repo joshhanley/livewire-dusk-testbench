@@ -137,6 +137,7 @@ public $packagePath = '';
 public $testsDirectory = '';
 public $testsNamespace = '';
 public $viewsDirectory = '';
+public $databaseName = '';
 
 public $appDebug = true;
 public $useDatabase = true;
@@ -169,12 +170,20 @@ public function configureViewsDirectory()
     }
 }
 
+public function configureDatabaseName()
+{
+    $this->databaseName = $this->getPackagePath() . '/database/database.sqlite';
+}
+
 public function configureDatabase($app)
 {
+    /**
+     * Dusk Testbench doesn't support in memory sqlite database so we need to specifiy one.
+     */
     $app['config']->set('database.default', 'testbench');
     $app['config']->set('database.connections.testbench', [
         'driver'   => 'sqlite',
-        'database' => ':memory:',
+        'database' => $this->getDatabaseName(),
         'prefix'   => '',
     ]);
 }
@@ -189,7 +198,17 @@ public function configureFilesystemDisks($app)
 
 public function tweakApplicationHook()
 {
-    return function () {
+    /**
+     * As the database name is calculated, we need to pass it to the app
+     * through this serialised closure to ensure it resolves correctly.
+     */
+
+    $databaseName = $this->getDatabaseName();
+
+    return function () use ($databaseName) {
+        $default = app('config')->get('database.default');
+
+        app('config')->set("database.connections.{$default}.database", $databaseName);
     };
 }
 
