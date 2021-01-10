@@ -6,5 +6,5 @@ use LivewireDusk\TestCase as LivewireDuskTestCase;
 
 class TestCase extends LivewireDuskTestCase
 {
-    public $withoutUI = true;
+    // public $withoutUI = true;
 }

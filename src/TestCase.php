@@ -59,7 +59,7 @@ class TestCase extends DuskTestCase
     public function configureViewsDirectory()
     {
         if ($this->viewsDirectory == '') {
-            $this->viewsDirectory = __DIR__.'/../../resources/views';
+            $this->viewsDirectory = __DIR__.'/../resources/views';
         }
     }
 

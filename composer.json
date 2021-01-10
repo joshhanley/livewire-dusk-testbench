@@ -1,5 +1,6 @@
 {
-    "name": "josh/livewire-dusk",
+    "name": "joshhanley/livewire-dusk-testbench",
+    "description": "A Laravel Dusk testing helper for Livewire package development.",
     "license": "MIT",
     "authors": [
         {
@@ -15,7 +16,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LivewireDusk\\": "src/LivewireDusk/"
+            "LivewireDusk\\": "src/"
         }
     },
     "autoload-dev": {
