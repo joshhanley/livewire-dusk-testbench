@@ -38,14 +38,14 @@ There are other configuration options you can override depending on your needs.
 
 ### Setup Browser TestCase
 
-To use Livewire Dusk, all you need to do is extend `LivewireDusk\TestCase` instead of `Orchestra\Testbench\Dusk\TestCase` in your dusk tests.
+To use Livewire Dusk, all you need to do is extend `LivewireDuskTestbench\TestCase` instead of `Orchestra\Testbench\Dusk\TestCase` in your dusk tests.
 
 Or configure this in your base browser testcase:
 
 ```php
 <?php
 
-class BrowserTestCase extends LivewireDusk\TestCase
+class BrowserTestCase extends LivewireDuskTestbench\TestCase
 {
     //
 }

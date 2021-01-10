@@ -1,13 +1,13 @@
 <?php
 
-namespace LivewireDusk;
+namespace LivewireDuskTestbench;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Testing\Constraints\SeeInOrder;
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Assert as PHPUnit;
 
-class LivewireDuskServiceProvider extends ServiceProvider
+class LivewireDuskTestbenchServiceProvider extends ServiceProvider
 {
     public function boot()
     {

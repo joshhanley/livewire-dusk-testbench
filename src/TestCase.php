@@ -1,6 +1,6 @@
 <?php
 
-namespace LivewireDusk;
+namespace LivewireDuskTestbench;
 
 use Closure;
 use Exception;
@@ -15,7 +15,7 @@ use Laravel\Dusk\Browser;
 use Livewire\Component;
 use Livewire\LivewireServiceProvider;
 use Livewire\Macros\DuskBrowserMacros;
-use LivewireDusk\HttpKernel;
+use LivewireDuskTestbench\HttpKernel;
 use Orchestra\Testbench\Dusk\Options as DuskOptions;
 use Orchestra\Testbench\Dusk\TestCase as DuskTestCase;
 use Psy\Shell;
@@ -285,7 +285,7 @@ class TestCase extends DuskTestCase
     {
         return [
             LivewireServiceProvider::class,
-            LivewireDuskServiceProvider::class,
+            LivewireDuskTestbenchServiceProvider::class,
             ...$this->packageProviders
         ];
     }

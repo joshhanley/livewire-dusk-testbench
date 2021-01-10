@@ -1,6 +1,6 @@
 <?php
 
-namespace LivewireDusk;
+namespace LivewireDuskTestbench;
 
 use Psy\Command\Command;
 use Psy\Output\ShellOutput;

@@ -1,6 +1,6 @@
 <?php
 
-namespace LivewireDusk;
+namespace LivewireDuskTestbench;
 
 // Thanks to https://github.com/appstract/laravel-dusk-safari for most of this source.
 trait SupportsSafari

@@ -16,12 +16,12 @@
     },
     "autoload": {
         "psr-4": {
-            "LivewireDusk\\": "src/"
+            "LivewireDuskTestbench\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "LivewireDusk\\Tests\\": "tests/"
+            "LivewireDuskTestbench\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

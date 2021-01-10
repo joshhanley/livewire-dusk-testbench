@@ -1,6 +1,6 @@
 <?php
 
-namespace LivewireDusk;
+namespace LivewireDuskTestbench;
 
 use Illuminate\Foundation\Http\Kernel;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace LivewireDusk\Tests\Browser;
+namespace LivewireDuskTestbench\Tests\Browser;
 
-use LivewireDusk\TestCase as LivewireDuskTestCase;
+use LivewireDuskTestbench\TestCase as LivewireDuskTestbenchTestCase;
 
-class TestCase extends LivewireDuskTestCase
+class TestCase extends LivewireDuskTestbenchTestCase
 {
     // public $withoutUI = true;
 }
