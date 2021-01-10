@@ -19,7 +19,7 @@ It's recommended you read the documentation of these packages before going throu
 To install through composer, run the following command from terminal:
 
 ```bash
-composer require --dev joshhanley/livewire-dusk
+composer require --dev joshhanley/livewire-dusk-testbench
 ```
 
 ## Usage
@@ -166,7 +166,7 @@ public function configureTestsDirectory()
 public function configureViewsDirectory()
 {
     if ($this->viewsDirectory == '') {
-        $this->viewsDirectory = __DIR__.'/../../resources/views';
+        $this->viewsDirectory = __DIR__.'/../resources/views';
     }
 }
 
