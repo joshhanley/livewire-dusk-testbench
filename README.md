@@ -127,6 +127,12 @@ public function configureTestsDirectory()
 }
 ```
 
+## Livewire Dusk Macros
+
+Livewire comes with a bunch of Dusk macros which you can use.
+
+Check them out in the Livewire source in ['livewire/src/Macros/DuskBrowserMacros.php'](https://github.com/livewire/livewire/blob/master/src/Macros/DuskBrowserMacros.php).
+
 ## Demo Package
 
 A demo package has been setup which gives a sample of how this package can be used. Check it out here
