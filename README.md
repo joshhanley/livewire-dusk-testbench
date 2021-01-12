@@ -127,6 +127,12 @@ public function configureTestsDirectory()
 }
 ```
 
+## Demo Package
+
+A demo package has been setup which gives a sample of how this package can be used. Check it out here
+
+[Livewire Package Demo](https://github.com/joshhanley/livewire-package-demo)
+
 ## Possible Overrides
 
 Below is a list of some of the settings you can override inside your browser TestCase file to suit your testing needs. Listed below are the defaults:
