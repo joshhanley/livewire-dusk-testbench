@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.0",
         "livewire/livewire": "^2.3|dev-master",
         "orchestra/testbench-dusk": "^6.7",
         "psy/psysh": "^0.10.5"
