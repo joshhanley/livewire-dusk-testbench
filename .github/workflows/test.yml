@@ -46,7 +46,7 @@ jobs:
 
       - name: Install Composer dependencies
         run: |
-          composer require "orchestra/testbench-dusk:${{ matrix.testbench }}" --no-interaction --no-update --dev
+          composer require "orchestra/testbench-dusk:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --prefer-stable --no-interaction --no-suggest
 
       - name: Touch database
