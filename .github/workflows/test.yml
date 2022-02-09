@@ -49,9 +49,6 @@ jobs:
           composer require "orchestra/testbench-dusk:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --prefer-stable --no-interaction --no-suggest
 
-      - name: Touch database
-        run: touch database/database.sqlite
-
       - name: Setup dusk/chrome
         run: vendor/bin/dusk-updater detect --no-interaction
 
