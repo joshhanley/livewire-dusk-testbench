@@ -12,7 +12,7 @@
         "php": "^7.4|^8.0",
         "livewire/livewire": "^2.3|dev-master",
         "orchestra/testbench-dusk": "^5.2|^6.7|^7.0",
-        "psy/psysh": "^0.10.5"
+        "psy/psysh": "^0.11.1"
     },
     "autoload": {
         "psr-4": {
