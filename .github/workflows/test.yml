@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.4, 8.0, 8.1]
+        php: [7.4, 8.0, 8.1, 8.2]
         testbench: [6.*, 7.*, 8.*]
         exclude:
           - php: 7.4
@@ -22,6 +22,8 @@ jobs:
             testbench: 8.*
           - php: 8.0
             testbench: 8.*
+          - php: 8.2
+            testbench: 6.*
 
     name: PHP:${{ matrix.php }} / Testbench:${{ matrix.testbench }}
 
