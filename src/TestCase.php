@@ -10,6 +10,8 @@ use function Livewire\trigger;
 
 class TestCase extends DuskTestCase
 {
+    public array $packageProviders = [];
+
     public static function tweakApplicationHook()
     {
         return function () {};
@@ -52,12 +54,25 @@ class TestCase extends DuskTestCase
         return [
             \Livewire\LivewireServiceProvider::class,
             \LivewireDuskTestbench\LivewireDuskTestbenchServiceProvider::class,
+            ...$this->packageProviders,
         ];
+    }
+
+    public function viewsDirectory(): string
+    {
+        return '';
     }
 
     protected function defineEnvironment($app)
     {
+        $viewDirectories = [];
+
+        if (($viewsDirectory = $this->viewsDirectory()) !== '') {
+            $viewDirectories[] = $viewsDirectory;
+        }
+        
         $app['config']->set('view.paths', [
+            ...$viewDirectories,
             __DIR__ . '/views',
             resource_path('views'),
         ]);
