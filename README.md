@@ -22,12 +22,21 @@ To install through composer, run the following command from terminal:
 composer require --dev joshhanley/livewire-dusk-testbench
 ```
 
+## Upgrading from V2 of this package
+
+- App key in phpunit.xml is no longer needed.
+- Signature of `public array $packageProviders = [];` now has array type definition.
+- `configureViewDirectory()` method has been renamed to `viewsDirectory` and should now return a string of the path for the views directory. A `string` return type is also required.
+- `$testsNamespace` property and `configureTestsDirectory()` method are no longer needed so can be deleted.
+- `tweatApplicationHook()` method is now a `static` method.
+- Almost all of the items listed in the `Possible Overrides` in the old README are no longer relevant and can be removed. Remaining ones are listed in that section below.
+
+
 ## Usage
 
 To use this package you need to:
 
 - Setup your base browser testcase
-- Configure an app key
 - Register your package service providers (if required)
 - Setup layout views (if required)
 - Configure test directory and namespace (if required)
@@ -51,31 +60,12 @@ class BrowserTestCase extends LivewireDuskTestbench\TestCase
 }
 ```
 
-### Configure App Key
-
-Setup app key in phpunit.xml file as per [testbench instructions](https://github.com/orchestral/testbench#no-supported-encrypter-found-the-cipher-and--or-key-length-are-invalid):
-
->To solve this you can add a dummy APP_KEY or use a specific key to your application/package phpunit.xml.
-
-```xml
-<phpunit>
-
-    // ...
-
-    <php>
-        <env name="APP_KEY" value="AckfSECXIvnK5r28GVIWUAxmbBSjTsmF"/>
-    </php>
-
-</phpunit>
-
-```
-
 ### Register Package Service Providers
 
 Register your package services providers in $packageProviders property to ensure they are loaded for testing:
 
 ```php
-public $packageProviders = [
+public array $packageProviders = [
     YourPackageServiceProvider::class,
 ];
 ```
@@ -84,46 +74,26 @@ public $packageProviders = [
 
 To add other packages to your app layout for testing with, such as AlpineJS, you will need to create a custom layout.
 
-Create your own app layout by creating a `views/layouts` folder somewhere in your package and add a `app.blade.php` file inside the layouts folder.
+Create your own app layout by creating a `views/components/layouts` folder somewhere in your package and add a `app.blade.php` file inside the layouts folder.
 
-Populate your app layout as required (making sure in you include Livewire Scripts and Styles).
+Populate your app layout as required.
 
-Then set your base view folder by overridding `viewsDirectory` method to point to the `views` folder you created.
+Then set your base view folder by overridding `viewsDirectory` method to return a path to the `views` folder you created.
 
 *For Example*
 
 A good location to store your views folder and app layout would be in your Dusk browser tests folder.
 
 In the root of your package, create the following directories and file
-`tests/Browser/views/layouts/app.blade.php`
+`tests/Browser/views/components/layouts/app.blade.php`
 
 Then in your `tests/Browser/TestCase.php` file add:
 
 ```php
-public function configureViewsDirectory()
+public function viewsDirectory(): string
 {
     // Resolves to 'tests/Browser/views'
-    $this->viewsDirectory = __DIR__.'/views';
-}
-```
-
-### Configure Tests Directory and Namespace
-
-This package assumes you have a `tests` directory at the root of your project and that it's namespace contains the word `Tests`. It tries to automatically guess the namespace for your tests based on this.
-
-If you have a different configuration, you can manually specify your namespace in your Browser Testcase file:
-
-```php
-public $testsNamespace = 'Company\\Package\\Tests';
-```
-
-You can also override the `configureTestsDirectory` method to calculate the absolute path of your tests directory:
-
-```php
-
-public function configureTestsDirectory()
-{
-    $this->testsDirectory = "/absolute/path/to/tests";
+    return __DIR__.'/views';
 }
 ```
 
@@ -131,7 +101,7 @@ public function configureTestsDirectory()
 
 Livewire comes with a bunch of Dusk macros which you can use.
 
-Check them out in the Livewire source in ['livewire/src/Macros/DuskBrowserMacros.php'](https://github.com/livewire/livewire/blob/master/src/Macros/DuskBrowserMacros.php).
+Check them out in the Livewire source in ['livewire/src/Features/SupportTesting/DuskBrowserMacros.php'](https://github.com/livewire/livewire/blob/main/src/Features/SupportTesting/DuskBrowserMacros.php).
 
 ## Demo Package
 
@@ -145,83 +115,15 @@ Below is a list of some of the settings you can override inside your browser Tes
 
 ```php
 public $packageProviders = [];
-public $packagePath = '';
-public $testsDirectory = '';
-public $testsNamespace = '';
-public $viewsDirectory = '';
-public $databaseName = '';
 
-public $appDebug = true;
-public $useDatabase = true;
-public $useFilesystemDisks = true;
-
-public $withoutUI = false;
-public $storeConsoleLogs = false;
-public $captureFailures = false;
-
-public static $useSafari = false;
-
-public function configurePackagePath()
+public function viewsDirectory(): string
 {
-    if ($this->packagePath == '') {
-        $this->packagePath = getcwd();
-    }
+    return '';
 }
 
-public function configureTestsDirectory()
+public static function tweakApplicationHook()
 {
-    if ($this->testsDirectory == '') {
-        $this->testsDirectory = $this->getPackagePath()."/tests";
-    }
-}
-
-public function configureViewsDirectory()
-{
-    if ($this->viewsDirectory == '') {
-        $this->viewsDirectory = __DIR__.'/../resources/views';
-    }
-}
-
-public function configureDatabaseName()
-{
-    $this->databaseName = $this->getPackagePath() . '/database/database.sqlite';
-}
-
-public function configureDatabase($app)
-{
-    /**
-     * Dusk Testbench doesn't support in memory sqlite database so we need to specifiy one.
-     */
-    $app['config']->set('database.default', 'testbench');
-    $app['config']->set('database.connections.testbench', [
-        'driver'   => 'sqlite',
-        'database' => $this->getDatabaseName(),
-        'prefix'   => '',
-    ]);
-}
-
-public function configureFilesystemDisks($app)
-{
-    $app['config']->set('filesystems.disks.dusk-downloads', [
-        'driver' => 'local',
-        'root' => $this->getTestsDirectory().'/Browser/downloads',
-    ]);
-}
-
-public function tweakApplicationHook()
-{
-    /**
-     * As the database name is calculated, we need to pass it to the app
-     * through this serialised closure to ensure it resolves correctly.
-     */
-
-    $databaseName = $this->getDatabaseName();
-
-    return function () use ($databaseName) {
-        $default = app('config')->get('database.default');
-
-        app('config')->set("database.connections.{$default}.database", $databaseName);
-    };
+    return function () {};
 }
 
 ```
