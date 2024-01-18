@@ -30,6 +30,31 @@ composer require --dev joshhanley/livewire-dusk-testbench
 - `$testsNamespace` property and `configureTestsDirectory()` method are no longer needed so can be deleted.
 - `tweatApplicationHook()` method is now a `static` method.
 - Almost all of the items listed in the `Possible Overrides` in the old README are no longer relevant and can be removed. Remaining ones are listed in that section below.
+- Tests no longer need the `$this->browse()` method to be called, instead you can call `Livewire::visit(MyComponent::class)` and the first parameter of Livewire:visit is no longer `$browser` and instead is your component class. See below examples:
+
+Old test structure:
+```php
+/** @test */
+public function it_can_count()
+{
+    $this->browse(function (Browser $browser) {
+        Livewire::visit($browser, CounterComponent::class)
+            // Assertions here
+            ;
+    });
+}
+```
+
+New test structure:
+```php
+/** @test */
+public function it_can_count()
+{
+    Livewire::visit(CounterComponent::class)
+        // Assertions here
+        ;
+}
+```
 
 
 ## Usage
