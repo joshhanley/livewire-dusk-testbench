@@ -11,6 +11,46 @@ class LivewireDuskTestbenchServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+
+        Browser::macro('assertHasAllClasses', function (string $selector, array $contents = []) {
+            $fullSelector = $this->resolver->format($selector);
+
+            $invalidClasses = array_diff($contents, explode(' ', $this->attribute($selector, 'class')));
+            
+            PHPUnit::assertEmpty(
+                $invalidClasses,
+                "Element [{$fullSelector}] is missing required classes [".implode(" ", $invalidClasses)."]."
+            );
+
+            return $this;
+        });
+
+        Browser::macro('assertHasOnlyClasses', function (string $selector, array $contents = []) {
+            $fullSelector = $this->resolver->format($selector);
+
+            $invalidClasses = array_diff(explode(' ', $this->attribute($selector, 'class')), $contents);
+
+            PHPUnit::assertEmpty(
+                $invalidClasses,
+                "Element [{$fullSelector}] has classes that must not be present [".implode(" ", $invalidClasses)."]."
+            );
+
+            return $this;
+        });
+
+        Browser::macro('assertMissingAllClasses', function (string $selector, array $contents = []) {
+            $fullSelector = $this->resolver->format($selector);
+
+            $invalidClasses = array_intersect($contents, explode(' ', $this->attribute($selector, 'class')));
+
+            PHPUnit::assertEmpty(
+                $invalidClasses,
+                "Element [{$fullSelector}] has classes that must be missing [".implode(" ", $invalidClasses)."]."
+            );
+
+            return $this;
+        });
+
         Browser::macro('assertSeeInOrder', function ($selector, $contents) {
             $fullSelector = $this->resolver->format($selector);
 
