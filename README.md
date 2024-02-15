@@ -131,12 +131,15 @@ Check them out in the Livewire source in ['livewire/src/Features/SupportTesting/
 In addition, the package provides the following:
 ### assertMissingAllClasses
 Pass a selector, and an array of classes.  This checks that none of the classes in the array passed are present
+On failure, will return any classes that are present, that should not be
 
 ### assertHasAllClasses
 Pass a selector, and an array of classes.  This checks that the element has all classes present from the array (but may have others)
+On failure, will return any classes that are missing, that should be present
 
 ### assertHasOnlyClasses
 Pass a selector, and an array of classes.  This checks that the element has no additional classes to the array passed
+On failure, will return any classes that are present, that should not be
 
 ## Demo Package
 
