@@ -131,8 +131,11 @@ Check them out in the Livewire source in ['livewire/src/Features/SupportTesting/
 In addition, the package provides the following:
 
 - `assertSeeInOrder('@container', ['a', 'b', 'c'])`
-- `assertIsVisibleInContainer(@container, @item)`
-- `assertIsNotVisibleInContainer(@container, @item)`
+- `assertIsVisibleInContainer('@container', '@item')`
+- `assertIsNotVisibleInContainer('@container', '@item')`
+- `assertHasClasses('@selector', ['class1', 'class2', 'class3'])`
+- `assertHasOnlyClasses('@selector', ['class1', 'class2', 'class3'])`
+- `assertMissingClasses('@selector', ['class1', 'class2', 'class3'])`
 
 ## Demo Package
 

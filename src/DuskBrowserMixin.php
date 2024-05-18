@@ -69,6 +69,57 @@ class DuskBrowserMixin
         };
     }
 
+    public function assertHasClasses()
+    {
+        return function (string $selector, array $contents = []) {
+            /** @var \Laravel\Dusk\Browser $this */
+            $fullSelector = $this->resolver->format($selector);
+
+            $invalidClasses = array_diff($contents, explode(' ', $this->attribute($selector, 'class')));
+
+            PHPUnit::assertEmpty(
+                $invalidClasses,
+                "Element [{$fullSelector}] is missing required classes [".implode(' ', $invalidClasses).'].'
+            );
+
+            return $this;
+        };
+    }
+
+    public function assertHasOnlyClasses()
+    {
+        return function (string $selector, array $contents = []) {
+            /** @var \Laravel\Dusk\Browser $this */
+            $fullSelector = $this->resolver->format($selector);
+
+            $invalidClasses = array_diff(explode(' ', $this->attribute($selector, 'class')), $contents);
+
+            PHPUnit::assertEmpty(
+                $invalidClasses,
+                "Element [{$fullSelector}] has classes that must not be present [".implode(' ', $invalidClasses).'].'
+            );
+
+            return $this;
+        };
+    }
+
+    public function assertMissingClasses()
+    {
+        return function (string $selector, array $contents = []) {
+            /** @var \Laravel\Dusk\Browser $this */
+            $fullSelector = $this->resolver->format($selector);
+
+            $invalidClasses = array_intersect($contents, explode(' ', $this->attribute($selector, 'class')));
+
+            PHPUnit::assertEmpty(
+                $invalidClasses,
+                "Element [{$fullSelector}] has classes that must be missing [".implode(' ', $invalidClasses).'].'
+            );
+
+            return $this;
+        };
+    }
+
     protected function isVisibleScript()
     {
         return '
