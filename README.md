@@ -128,6 +128,12 @@ Livewire comes with a bunch of Dusk macros which you can use.
 
 Check them out in the Livewire source in ['livewire/src/Features/SupportTesting/DuskBrowserMacros.php'](https://github.com/livewire/livewire/blob/main/src/Features/SupportTesting/DuskBrowserMacros.php).
 
+In addition, the package provides the following:
+
+- `assertSeeInOrder('@container', ['a', 'b', 'c'])`
+- `assertIsVisibleInContainer(@container, @item)`
+- `assertIsNotVisibleInContainer(@container, @item)`
+
 ## Demo Package
 
 A demo package has been setup which gives a sample of how this package can be used. Check it out here
