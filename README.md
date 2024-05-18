@@ -129,17 +129,13 @@ Livewire comes with a bunch of Dusk macros which you can use.
 Check them out in the Livewire source in ['livewire/src/Features/SupportTesting/DuskBrowserMacros.php'](https://github.com/livewire/livewire/blob/main/src/Features/SupportTesting/DuskBrowserMacros.php).
 
 In addition, the package provides the following:
-### assertMissingAllClasses
-Pass a selector, and an array of classes.  This checks that none of the classes in the array passed are present
-On failure, will return any classes that are present, that should not be
 
-### assertHasAllClasses
-Pass a selector, and an array of classes.  This checks that the element has all classes present from the array (but may have others)
-On failure, will return any classes that are missing, that should be present
-
-### assertHasOnlyClasses
-Pass a selector, and an array of classes.  This checks that the element has no additional classes to the array passed
-On failure, will return any classes that are present, that should not be
+- `assertSeeInOrder('@container', ['a', 'b', 'c'])`
+- `assertIsVisibleInContainer('@container', '@item')`
+- `assertIsNotVisibleInContainer('@container', '@item')`
+- `assertHasClasses('@selector', ['class1', 'class2', 'class3'])`
+- `assertHasOnlyClasses('@selector', ['class1', 'class2', 'class3'])`
+- `assertMissingClasses('@selector', ['class1', 'class2', 'class3'])`
 
 ## Demo Package
 
