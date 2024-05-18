@@ -6,7 +6,7 @@ use Livewire\Component;
 use Livewire\Livewire;
 use PHPUnit\Framework\AssertionFailedError;
 
-class DuskBrowserMixinsTest extends TestCase
+class DuskBrowserMixinTest extends TestCase
 {
     /** @test */
     public function assert_see_in_order_macro_passes()
