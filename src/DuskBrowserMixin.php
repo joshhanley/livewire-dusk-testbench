@@ -120,6 +120,102 @@ class DuskBrowserMixin
         };
     }
 
+    public function assertConsoleLogHasErrors()
+    {
+        return function ($includeFavicon = false) {
+            $logs = $this->driver->manage()->getLog('browser');
+
+            $containsError = false;
+
+            foreach ($logs as $log) {
+                if (! isset($log['message']) || ! isset($log['level']) || ($log['level'] !== 'ERROR' && $log['level'] !== 'SEVERE')) {
+                    continue;
+                }
+
+                // Ignore default favicon.ico error unless specified to include
+                if (! str($log['message'])->contains('favicon.ico') || $includeFavicon) {
+                    $containsError = true;
+                    break;
+                }
+            }
+
+            PHPUnit::assertTrue($containsError, 'Console log does not contain any error messages');
+
+            return $this;
+        };
+    }
+
+    public function assertConsoleLogMissingErrors()
+    {
+        return function ($includeFavicon = false) {
+            $logs = $this->driver->manage()->getLog('browser');
+
+            $containsError = false;
+
+            foreach ($logs as $log) {
+                if (! isset($log['message']) || ! isset($log['level']) || ($log['level'] !== 'ERROR' && $log['level'] !== 'SEVERE')) {
+                    continue;
+                }
+
+                // Ignore default favicon.ico error unless specified to include
+                if (! str($log['message'])->contains('favicon.ico') || $includeFavicon) {
+                    $containsError = true;
+                    break;
+                }
+            }
+
+            PHPUnit::assertFalse($containsError, 'Console log contains an error message');
+
+            return $this;
+        };
+    }
+
+    public function assertConsoleLogHasError()
+    {
+        return function ($expectedMessage) {
+            $logs = $this->driver->manage()->getLog('browser');
+
+            $containsError = false;
+
+            foreach ($logs as $log) {
+                if (! isset($log['message']) || ! isset($log['level']) || ($log['level'] !== 'ERROR' && $log['level'] !== 'SEVERE')) {
+                    continue;
+                }
+
+                if (str($log['message'])->contains($expectedMessage)) {
+                    $containsError = true;
+                }
+            }
+
+            PHPUnit::assertTrue($containsError, "Console log error message \"{$expectedMessage}\" was not found");
+
+            return $this;
+        };
+    }
+
+    public function assertConsoleLogMissingError()
+    {
+        return function ($expectedMessage) {
+            $logs = $this->driver->manage()->getLog('browser');
+
+            $containsError = false;
+
+            foreach ($logs as $log) {
+                if (! isset($log['message']) || ! isset($log['level']) || ($log['level'] !== 'ERROR' && $log['level'] !== 'SEVERE')) {
+                    continue;
+                }
+
+                if (str($log['message'])->contains($expectedMessage)) {
+                    $containsError = true;
+                }
+            }
+
+            PHPUnit::assertFalse($containsError, "Console log error message \"{$expectedMessage}\" was found");
+
+            return $this;
+        };
+    }
+
     protected function isVisibleScript()
     {
         return '

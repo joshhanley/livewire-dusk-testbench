@@ -248,4 +248,140 @@ class DuskBrowserMixinTest extends TestCase
         })
             ->assertMissingClasses('@item', ['test', 'sample']);
     }
+
+    /** @test */
+    public function assert_console_log_has_errors_passes()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render()
+            {
+                return <<< 'HTML'
+                <div x-init="console.error('test')">
+                </div>
+                HTML;
+            }
+        })
+            ->assertConsoleLogHasErrors();
+    }
+
+    /** @test */
+    public function assert_console_log_has_errors_fails()
+    {
+        $this->expectException(AssertionFailedError::class);
+
+        Livewire::visit(new class extends Component
+        {
+            public function render()
+            {
+                return <<< 'HTML'
+                <div x-init="console.log('test')">
+                </div>
+                HTML;
+            }
+        })
+            ->assertConsoleLogHasErrors();
+    }
+
+    /** @test */
+    public function assert_console_log_missing_errors_passes()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render()
+            {
+                return <<< 'HTML'
+                <div x-init="console.log('test')">
+                </div>
+                HTML;
+            }
+        })
+            ->assertConsoleLogMissingErrors();
+    }
+
+    /** @test */
+    public function assert_console_log_missing_errors_fails()
+    {
+        $this->expectException(AssertionFailedError::class);
+
+        Livewire::visit(new class extends Component
+        {
+            public function render()
+            {
+                return <<< 'HTML'
+                <div x-init="console.error('test')">
+                </div>
+                HTML;
+            }
+        })
+            ->assertConsoleLogMissingErrors();
+    }
+
+    /** @test */
+    public function assert_console_log_has_error_passes()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render()
+            {
+                return <<< 'HTML'
+                <div x-init="console.error('test')">
+                </div>
+                HTML;
+            }
+        })
+            ->assertConsoleLogHasError('test');
+    }
+
+    /** @test */
+    public function assert_console_log_has_error_fails()
+    {
+        $this->expectException(AssertionFailedError::class);
+
+        Livewire::visit(new class extends Component
+        {
+            public function render()
+            {
+                return <<< 'HTML'
+                <div x-init="console.error('other')">
+                </div>
+                HTML;
+            }
+        })
+            ->assertConsoleLogHasError('test');
+    }
+
+    /** @test */
+    public function assert_console_log_missing_error_passes()
+    {
+        Livewire::visit(new class extends Component
+        {
+            public function render()
+            {
+                return <<< 'HTML'
+                <div x-init="console.error('other')">
+                </div>
+                HTML;
+            }
+        })
+            ->assertConsoleLogMissingError('test');
+    }
+
+    /** @test */
+    public function assert_console_log_missing_error_fails()
+    {
+        $this->expectException(AssertionFailedError::class);
+
+        Livewire::visit(new class extends Component
+        {
+            public function render()
+            {
+                return <<< 'HTML'
+                <div x-init="console.error('test')">
+                </div>
+                HTML;
+            }
+        })
+            ->assertConsoleLogMissingError('test');
+    }
 }
