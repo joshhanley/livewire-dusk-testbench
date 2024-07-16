@@ -136,6 +136,10 @@ In addition, the package provides the following:
 - `assertHasClasses('@selector', ['class1', 'class2', 'class3'])`
 - `assertHasOnlyClasses('@selector', ['class1', 'class2', 'class3'])`
 - `assertMissingClasses('@selector', ['class1', 'class2', 'class3'])`
+- `assertConsoleLogHasErrors()`
+- `assertConsoleLogMissingErrors()`
+- `assertConsoleLogHasError($message)`
+- `assertConsoleLogMissingError($message)`
 
 ## Demo Package
 
