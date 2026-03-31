@@ -15,8 +15,9 @@ jobs:
       matrix:
         php: [8.1, 8.2, 8.3, 8.4, 8.5]
         testbench: [8.*]
+        livewire: [3.*, 4.*]
 
-    name: PHPUnit 9 - PHP:${{ matrix.php }} / Testbench:${{ matrix.testbench }}
+    name: PHPUnit 9 - PHP:${{ matrix.php }} / Testbench:${{ matrix.testbench }} / Livewire:${{ matrix.livewire }}
 
     steps:
       - name: Checkout
@@ -38,12 +39,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: dependencies-testbench-${{ matrix.testbench }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
-          restore-keys: dependencies-testbench-${{ matrix.testbench }}-php-${{ matrix.php }}-composer-
+          key: dependencies-testbench-${{ matrix.testbench }}-livewire-${{ matrix.livewire }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: dependencies-testbench-${{ matrix.testbench }}-livewire-${{ matrix.livewire }}-php-${{ matrix.php }}-composer-
 
       - name: Install Composer dependencies
         run: |
-          composer require "orchestra/testbench-dusk:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require "orchestra/testbench-dusk:${{ matrix.testbench }}" "livewire/livewire:${{ matrix.livewire }}" --no-interaction --no-update
           composer update --prefer-stable --no-interaction --no-suggest
 
       - name: Setup dusk/chrome
@@ -61,11 +62,12 @@ jobs:
       matrix:
         php: [8.2, 8.3, 8.4, 8.5]
         testbench: [9.*, 10.*, 11.*]
+        livewire: [3.*, 4.*]
         exclude:
           - php: 8.2
             testbench: 11.*
 
-    name: PHPUnit 10+ - PHP:${{ matrix.php }} / Testbench:${{ matrix.testbench }}
+    name: PHPUnit 10+ - PHP:${{ matrix.php }} / Testbench:${{ matrix.testbench }} / Livewire:${{ matrix.livewire }}
 
     steps:
       - name: Checkout
@@ -87,12 +89,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: dependencies-testbench-${{ matrix.testbench }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
-          restore-keys: dependencies-testbench-${{ matrix.testbench }}-php-${{ matrix.php }}-composer-
+          key: dependencies-testbench-${{ matrix.testbench }}-livewire-${{ matrix.livewire }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: dependencies-testbench-${{ matrix.testbench }}-livewire-${{ matrix.livewire }}-php-${{ matrix.php }}-composer-
 
       - name: Install Composer dependencies
         run: |
-          composer require "orchestra/testbench-dusk:${{ matrix.testbench }}" --no-interaction --no-update
+          composer require "orchestra/testbench-dusk:${{ matrix.testbench }}" "livewire/livewire:${{ matrix.livewire }}" --no-interaction --no-update
           composer update --prefer-stable --no-interaction --no-suggest
 
       - name: Setup dusk/chrome
