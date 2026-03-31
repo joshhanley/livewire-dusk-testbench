@@ -8,8 +8,7 @@ use PHPUnit\Framework\AssertionFailedError;
 
 class DuskBrowserMixinTest extends TestCase
 {
-    /** @test */
-    public function assert_see_in_order_macro_passes()
+    public function test_assert_see_in_order_macro_passes()
     {
         Livewire::visit(new class extends Component
         {
@@ -29,8 +28,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertSeeInOrder('@list', ['bob', 'john', 'bill']);
     }
 
-    /** @test */
-    public function assert_see_in_order_macro_fails()
+    public function test_assert_see_in_order_macro_fails()
     {
         $this->expectException(AssertionFailedError::class);
 
@@ -52,8 +50,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertSeeInOrder('@list', ['john', 'bob', 'bill']);
     }
 
-    /** @test */
-    public function assert_is_visibile_in_container_passes()
+    public function test_assert_is_visibile_in_container_passes()
     {
         Livewire::visit(new class extends Component
         {
@@ -73,8 +70,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertIsVisibleInContainer('@list', '@bob');
     }
 
-    /** @test */
-    public function assert_is_visibile_in_container_fails()
+    public function test_assert_is_visibile_in_container_fails()
     {
         $this->expectException(AssertionFailedError::class);
 
@@ -96,8 +92,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertIsVisibleInContainer('@list', '@john');
     }
 
-    /** @test */
-    public function assert_is_not_visibile_in_container_passes()
+    public function test_assert_is_not_visibile_in_container_passes()
     {
         Livewire::visit(new class extends Component
         {
@@ -118,8 +113,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertIsNotVisibleInContainer('@list', '@bill');
     }
 
-    /** @test */
-    public function assert_is_not_visibile_in_container_fails()
+    public function test_assert_is_not_visibile_in_container_fails()
     {
         $this->expectException(AssertionFailedError::class);
 
@@ -141,8 +135,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertIsNotVisibleInContainer('@list', '@bob');
     }
 
-    /** @test */
-    public function assert_has_classes_passes()
+    public function test_assert_has_classes_passes()
     {
         Livewire::visit(new class extends Component
         {
@@ -158,8 +151,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertHasClasses('@item', ['test', 'other']);
     }
 
-    /** @test */
-    public function assert_has_classes_fails()
+    public function test_assert_has_classes_fails()
     {
         $this->expectException(AssertionFailedError::class);
 
@@ -177,8 +169,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertHasClasses('@item', ['test', 'other']);
     }
 
-    /** @test */
-    public function assert_has_only_classes_passes()
+    public function test_assert_has_only_classes_passes()
     {
         Livewire::visit(new class extends Component
         {
@@ -194,8 +185,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertHasOnlyClasses('@item', ['test', 'other']);
     }
 
-    /** @test */
-    public function assert_has_only_classes_fails()
+    public function test_assert_has_only_classes_fails()
     {
         $this->expectException(AssertionFailedError::class);
 
@@ -213,8 +203,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertHasOnlyClasses('@item', ['test', 'other']);
     }
 
-    /** @test */
-    public function assert_missing_classes_passes()
+    public function test_assert_missing_classes_passes()
     {
         Livewire::visit(new class extends Component
         {
@@ -230,8 +219,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertMissingClasses('@item', ['test', 'other']);
     }
 
-    /** @test */
-    public function assert_missing_classes_fails()
+    public function test_assert_missing_classes_fails()
     {
         $this->expectException(AssertionFailedError::class);
 
@@ -249,8 +237,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertMissingClasses('@item', ['test', 'sample']);
     }
 
-    /** @test */
-    public function assert_console_log_has_errors_passes()
+    public function test_assert_console_log_has_errors_passes()
     {
         Livewire::visit(new class extends Component
         {
@@ -265,8 +252,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertConsoleLogHasErrors();
     }
 
-    /** @test */
-    public function assert_console_log_has_errors_fails()
+    public function test_assert_console_log_has_errors_fails()
     {
         $this->expectException(AssertionFailedError::class);
 
@@ -283,8 +269,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertConsoleLogHasErrors();
     }
 
-    /** @test */
-    public function assert_console_log_missing_errors_passes()
+    public function test_assert_console_log_missing_errors_passes()
     {
         Livewire::visit(new class extends Component
         {
@@ -299,8 +284,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertConsoleLogMissingErrors();
     }
 
-    /** @test */
-    public function assert_console_log_missing_errors_fails()
+    public function test_assert_console_log_missing_errors_fails()
     {
         $this->expectException(AssertionFailedError::class);
 
@@ -317,8 +301,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertConsoleLogMissingErrors();
     }
 
-    /** @test */
-    public function assert_console_log_has_error_passes()
+    public function test_assert_console_log_has_error_passes()
     {
         Livewire::visit(new class extends Component
         {
@@ -333,8 +316,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertConsoleLogHasError('test');
     }
 
-    /** @test */
-    public function assert_console_log_has_error_fails()
+    public function test_assert_console_log_has_error_fails()
     {
         $this->expectException(AssertionFailedError::class);
 
@@ -351,8 +333,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertConsoleLogHasError('test');
     }
 
-    /** @test */
-    public function assert_console_log_missing_error_passes()
+    public function test_assert_console_log_missing_error_passes()
     {
         Livewire::visit(new class extends Component
         {
@@ -367,8 +348,7 @@ class DuskBrowserMixinTest extends TestCase
             ->assertConsoleLogMissingError('test');
     }
 
-    /** @test */
-    public function assert_console_log_missing_error_fails()
+    public function test_assert_console_log_missing_error_fails()
     {
         $this->expectException(AssertionFailedError::class);
 
