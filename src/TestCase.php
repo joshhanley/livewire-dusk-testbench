@@ -78,6 +78,7 @@ class TestCase extends DuskTestCase
         ]);
 
         $app['config']->set('app.key', 'base64:Hupx3yAySikrM2/edkZQNQHslgDWYfiBfCuSThJ5SK8=');
+        $app['config']->set('livewire.component_layout', 'components.layouts.app');
 
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
